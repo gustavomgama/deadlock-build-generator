@@ -21,54 +21,184 @@ HTML = """<!doctype html>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Deadlock RAG</title>
 <style>
-body{font-family:system-ui,sans-serif;max-width:900px;margin:2rem auto;padding:0 1rem}
-textarea{width:100%;min-height:6rem}
-button{padding:.5rem 1rem;margin:.5rem 0}
-pre{white-space:pre-wrap;background:#f6f6f6;padding:1rem;border-radius:.5rem;max-height:60vh;overflow:auto}
-input{margin:.25rem}
+:root{
+  color-scheme:light dark;
+  --bg:#faf9f6;
+  --surface:#ffffff;
+  --panel:#f4f2ec;
+  --line:#e3e0d8;
+  --line-strong:#cec9bd;
+  --ink:#1b1a17;
+  --muted:#6f6b62;
+  --accent:#8a5a12;
+  --accent-ink:#fdfbf6;
+  --ring:rgba(138,90,18,.18);
+  --mono:ui-monospace,SFMono-Regular,"Cascadia Mono",Consolas,"Liberation Mono",monospace;
+}
+@media (prefers-color-scheme:dark){
+  :root{
+    --bg:#121211;
+    --surface:#181817;
+    --panel:#1d1d1b;
+    --line:#2b2a27;
+    --line-strong:#3a3832;
+    --ink:#ecebe6;
+    --muted:#9d988e;
+    --accent:#d3a45c;
+    --accent-ink:#14130f;
+    --ring:rgba(211,164,92,.22);
+  }
+}
+*{box-sizing:border-box}
+body{
+  margin:0;background:var(--bg);color:var(--ink);
+  font:14px/1.6 ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+  -webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:860px;margin:0 auto;padding:40px 24px 72px}
+.masthead{position:relative;padding-bottom:24px;border-bottom:1px solid var(--line)}
+.masthead::after{content:"";position:absolute;left:0;bottom:-1px;width:48px;height:2px;background:var(--accent)}
+h1{margin:0 0 8px;font-size:22px;line-height:1.2;font-weight:600;letter-spacing:-.015em}
+.sub{margin:0;max-width:64ch;color:var(--muted)}
+.tool{display:grid;gap:16px;margin-top:32px}
+.tool + .tool{padding-top:32px;border-top:1px solid var(--line)}
+.toolhead{display:flex;align-items:baseline;justify-content:space-between;gap:16px}
+h2{margin:0;font-size:14px;font-weight:600;letter-spacing:.01em}
+.hint{font:11px/1.4 var(--mono);color:var(--muted);white-space:nowrap}
+form{display:grid;gap:12px}
+input:not([type=checkbox]),textarea{
+  width:100%;padding:10px 12px;border:1px solid var(--line-strong);border-radius:8px;
+  background:var(--surface);color:var(--ink);font:inherit;line-height:1.5;
+}
+textarea{min-height:96px;resize:vertical}
+input:not([type=checkbox]):focus,textarea:focus{
+  border-color:var(--accent);box-shadow:0 0 0 3px var(--ring);outline:none;
+}
+::placeholder{color:var(--muted);opacity:.85}
+.fields{display:grid;grid-template-columns:1.6fr 1fr 1.2fr;gap:8px}
+.row{display:flex;flex-wrap:wrap;align-items:center;gap:8px 20px;color:var(--muted);font-size:13px}
+.row label{display:inline-flex;align-items:center;gap:8px;cursor:pointer}
+input[type=checkbox]{accent-color:var(--accent);width:15px;height:15px;margin:0}
+.num{margin-left:auto}
+input[type=number]{width:64px;text-align:right;font-variant-numeric:tabular-nums}
+.actions{display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+button{
+  padding:8px 16px;border:1px solid transparent;border-radius:6px;
+  background:var(--accent);color:var(--accent-ink);
+  font:inherit;font-size:13.5px;font-weight:500;cursor:pointer;
+  transition:filter .15s ease,transform .06s ease;
+}
+button:hover{filter:brightness(1.08)}
+button:active{transform:translateY(1px)}
+.status{display:inline-flex;align-items:center;gap:8px;font:12px/1.4 var(--mono);color:var(--muted)}
+.status:not(:empty)::before{
+  content:"";width:6px;height:6px;border-radius:50%;background:var(--accent);
+  animation:pulse 1.4s ease-in-out infinite;
+}
+@keyframes pulse{50%{opacity:.25}}
+.out{border:1px solid var(--line);border-radius:8px;background:var(--surface);overflow:hidden}
+.outbar{
+  display:flex;align-items:center;justify-content:space-between;gap:16px;
+  padding:8px 12px;border-bottom:1px solid var(--line);background:var(--panel);
+  font:11px/1.4 var(--mono);color:var(--muted);
+}
+.outbar .label{color:var(--ink);letter-spacing:.02em}
+pre{
+  margin:0;padding:16px;min-height:160px;max-height:60vh;overflow:auto;
+  white-space:pre-wrap;overflow-wrap:anywhere;tab-size:2;
+  font:12.5px/1.65 var(--mono);color:var(--ink);
+}
+pre:empty::before{content:"No output yet.";color:var(--muted)}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+@media (max-width:600px){
+  .wrap{padding:24px 16px 48px}
+  .toolhead{display:block}
+  .hint{display:block;margin-top:4px;white-space:normal}
+  .fields{grid-template-columns:1fr}
+  .num{margin-left:0}
+}
+@media (prefers-reduced-motion:reduce){
+  *{animation:none!important;transition:none!important}
+}
 </style>
 </head>
 <body>
+<main class="wrap">
+<header class="masthead">
 <h1>Deadlock RAG</h1>
+<p class="sub">A local RAG oracle over the Deadlock corpus, plus a build generator. Retrieval and validation run on this machine; only answer and build generation call a model endpoint.</p>
+</header>
+<section class="tool">
+<div class="toolhead"><h2>Ask the corpus</h2><span class="hint">top-k chunks, then an answer</span></div>
 <form id="q">
-<textarea name="question" placeholder="Ask about Deadlock..."></textarea><br>
+<textarea name="question" aria-label="Question" placeholder="Ask about Deadlock..."></textarea>
+<div class="row">
 <label><input type="checkbox" name="generate" checked> generate answer (OpenCode)</label>
 <label><input type="checkbox" name="rewrite"> rewrite query</label>
-<label>top-k <input type="number" name="top_k" value="5" min="1" max="20"></label><br>
+<label class="num">top-k <input type="number" name="top_k" value="5" min="1" max="20"></label>
+</div>
+<div class="actions">
 <button type="submit">Ask</button>
+<span id="qstatus" class="status" role="status" aria-live="polite"></span>
+</div>
 </form>
+<div class="out">
+<div class="outbar"><span class="label">retrieval</span><span>plain text</span></div>
 <pre id="out"></pre>
+</div>
+</section>
+<section class="tool">
+<div class="toolhead"><h2>Build generator</h2><span class="hint">takes about a minute</span></div>
+<form id="b">
+<div class="fields">
+<input name="hero" aria-label="Hero" placeholder="Hero" required>
+<input name="role" aria-label="Role" placeholder="role" value="default">
+<input name="constraints" aria-label="Constraints" placeholder="constraints" value="none">
+</div>
+<div class="row">
+<label><input type="checkbox" name="ability_order"> ability order</label>
+</div>
+<div class="actions">
+<button type="submit">Generate build</button>
+<span id="bstatus" class="status" role="status" aria-live="polite"></span>
+</div>
+</form>
+<div class="out">
+<div class="outbar"><span class="label">build document</span><span>plain text</span></div>
+<pre id="buildout"></pre>
+</div>
+</section>
+</main>
 <script>
 const form=document.getElementById('q');
+const qstatus=document.getElementById('qstatus');
 form.addEventListener('submit',async e=>{
   e.preventDefault();
   const fd=new FormData(form);
   const body={question:fd.get('question'),top_k:parseInt(fd.get('top_k')||'5',10),generate:fd.has('generate'),rewrite:fd.has('rewrite')};
   document.getElementById('out').textContent='...';
-  const r=await fetch('/api/query',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});
-  const j=await r.json();
-  document.getElementById('out').textContent=j.answer||j.error||'no response';
+  qstatus.textContent='retrieving...';
+  try{
+    const r=await fetch('/api/query',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});
+    const j=await r.json();
+    document.getElementById('out').textContent=j.answer||j.error||'no response';
+  }finally{qstatus.textContent='';}
 });
 </script>
-<h2>Build generator</h2>
-<form id="b">
-<input name="hero" placeholder="Hero" required>
-<input name="role" placeholder="role" value="default">
-<input name="constraints" placeholder="constraints" value="none">
-<label><input type="checkbox" name="ability_order"> ability order</label>
-<button type="submit">Generate build</button>
-</form>
-<pre id="buildout"></pre>
 <script>
 const bform=document.getElementById('b');
+const bstatus=document.getElementById('bstatus');
 bform.addEventListener('submit',async e=>{
   e.preventDefault();
   const fd=new FormData(bform);
   const body={hero:fd.get('hero'),role:fd.get('role')||'default',constraints:fd.get('constraints')||'none',ability_order:fd.has('ability_order')};
   document.getElementById('buildout').textContent='...';
-  const r=await fetch('/api/build',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});
-  const j=await r.json();
-  document.getElementById('buildout').textContent=j.output||j.error||'no response';
+  bstatus.textContent='generating build, ~60s';
+  try{
+    const r=await fetch('/api/build',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});
+    const j=await r.json();
+    document.getElementById('buildout').textContent=j.output||j.error||'no response';
+  }finally{bstatus.textContent='';}
 });
 </script>
 </body>

@@ -55,6 +55,7 @@ def validate(obj):
     if hero_id not in HEROES:
         errors.append(f"unknown hero_id: {hero_id}")
     details = obj.get("details") or {}
+    seen = set()
     for cat in details.get("mod_categories") or []:
         name = cat.get("name", "")
         if name not in VALID_CATEGORIES:
@@ -66,6 +67,10 @@ def validate(obj):
             mid = m if not isinstance(m, dict) else m.get("id", m.get("mod_id"))
             if mid not in ITEMS:
                 errors.append(f"unknown item id: {mid}")
+            elif mid in seen:
+                warnings.append(f"duplicate item id: {mid}")
+            else:
+                seen.add(mid)
     ao = details.get("ability_order") or {}
     for e in (ao.get("currency_changes") or []):
         if not isinstance(e, dict):

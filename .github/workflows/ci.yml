@@ -16,5 +16,6 @@ jobs:
       - run: python -m py_compile rag.py buildgen.py webui.py validate_build.py eval.py eval_builds.py codec/decode_build_code.py codec/encode_build_code.py
       - run: python rag.py build
       - run: python eval.py --min-recall 0.90 --min-abstention 0.90
+      - run: python -m unittest discover -s tests -v
       - run: python codec/decode_build_code.py --self-test
       - run: python codec/encode_build_code.py --self-test

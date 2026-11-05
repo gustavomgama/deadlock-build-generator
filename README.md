@@ -97,6 +97,11 @@ python buildgen.py Infernus --role "spirit burn carry" --ability-order
 python webui.py                      # http://127.0.0.1:8000
 ```
 
+![The local web UI](docs/screenshot-ui.png)
+
+Both tools are thin wrappers: query calls `rag.query`, build calls `buildgen.py` as a
+subprocess and shows whatever the validated pipeline prints.
+
 Model settings:
 
 | Env var | Default |
@@ -154,6 +159,7 @@ eval_builds.py       end-to-end build evaluation harness
 eval.py              retrieval recall + abstention harness
 eval/                83 labelled questions, current and held-out splits
 RAG_SPEC.md          written retrieval specification
+tests/               build invariant tests (round trip, unknown IDs, duplicates)
 codec/               base64 <-> zstd <-> protobuf build code codec (MIT)
 corpus/organized/    566 curated markdown docs: heroes, items, mechanics, oracle
 data/                items_raw.json + heroes_raw.json snapshots (774 items, 65 heroes)
