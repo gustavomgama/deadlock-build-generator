@@ -117,18 +117,30 @@ Retrieval (`python eval.py`, 83 questions, 12 of them expected to abstain):
 | abstention accuracy | **1.000** (12/12) |
 
 Categories with misses: mechanics 7/8, multi-hop 4/5. Everything else 100%.
+Held-out split, never used for tuning (`python eval.py --questions eval/questions_holdout.jsonl`):
+recall@5 **1.000** (3/3), abstention **1.000** (2/2) — five questions, so treat it as a sanity
+check rather than a second measurement.
 
-Build generation (`python eval_builds.py --limit 4`, deterministic checks after generation):
+Build generation (`python eval_builds.py`, all 12 cases, deterministic checks after generation):
 
-| case | score | valid code | ids resolved | sections | time |
-| --- | --- | --- | --- | --- | --- |
-| Infernus (spirit burn carry) | 1.0 | yes | yes | 14/14 | 62.5 s |
-| Haze (weapon carry) | 1.0 | yes | yes | 14/14 | 57.7 s |
-| Abrams (tank frontline) | 1.0 | yes | yes | 14/14 | 43.6 s |
-| Lady Geist (spirit lifesteal) | 1.0 | yes | yes | 14/14 | 55.5 s |
+| case | score | valid code | ids resolved |
+| --- | --- | --- | --- |
+| Infernus (spirit burn carry) | 1.0 | yes | yes |
+| Haze (weapon carry) | 1.0 | yes | yes |
+| Abrams (tank frontline) | 1.0 | yes | yes |
+| Lady Geist (spirit lifesteal) | 1.0 | yes | yes |
+| Vindicta (sniper weapon) | 1.0 | yes | yes |
+| McGinnis (engineer turret) | 1.0 | yes | yes |
+| Dynamo (support teamfight) | 1.0 | yes | yes |
+| Kelvin (frost control) | 1.0 | yes | yes |
+| Wraith (mobility duelist) | 1.0 | yes | yes |
+| Paradox (time manipulator) | 1.0 | yes | yes |
+| Shiv (melee assassin) | 1.0 | yes | yes |
+| Ivy (support tether) | 1.0 | yes | yes |
 
-Average **1.000**. The harness also checks that a deliberately broken input is rejected
-rather than emitted.
+Average **1.000**, 49–76 s per build on a hosted chat model. Every case also has to fill
+all 14 template sections. The harness separately checks that a deliberately broken input is
+rejected rather than emitted.
 
 ## Repository layout
 

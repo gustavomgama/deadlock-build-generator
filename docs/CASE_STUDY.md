@@ -36,9 +36,9 @@ Four layers, each able to fail on its own:
 
 - Retrieval: **recall@5 0.972** (69/71), **abstention 1.000** (12/12) over 83 labelled
   questions, reproducible from a clean clone in CI.
-- Generation: **1.000 average** over 4 hero/role cases, each producing a code that
+- Generation: **1.000 average** over 12 hero/role cases, each producing a code that
   decodes and validates, plus a negative case that must be rejected.
-- Runtime: ~45–65 s per build against a hosted chat model; index build ~10 s.
+- Runtime: 49–76 s per build against a hosted chat model; index build ~10 s.
 
 ## What I would do next
 
