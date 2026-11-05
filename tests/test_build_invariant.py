@@ -31,6 +31,11 @@ def validate(code):
 
 
 class BuildInvariantTest(unittest.TestCase):
+    def test_frontmatter_is_hidden_from_display_snippets(self):
+        import rag
+
+        self.assertEqual(rag._visible('---\ntitle: "Zipline"\npageid: 676\n---\nTransit lines are fast.'), "Transit lines are fast.")
+
     def test_documented_code_decodes_and_validates(self):
         obj = decode_build_code(documented_code())
         self.assertIn("hero_id", obj)
