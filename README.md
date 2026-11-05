@@ -1,5 +1,7 @@
 # Deadlock Build Generator
 
+[![ci](https://github.com/gustavomgama/deadlock-build-generator/actions/workflows/ci.yml/badge.svg)](https://github.com/gustavomgama/deadlock-build-generator/actions/workflows/ci.yml)
+
 Generate original item builds for [Deadlock](https://www.playdeadlock.com/) from a local
 knowledge base, then encode them into a game-importable build code — and refuse to emit
 anything that does not decode and validate.
@@ -24,6 +26,8 @@ KLUv/WBcBVUcABaxpkPw2qQDcvGk6PHRfoQtjUccGUVqTmY2UYkRhJGBOlO5MSFblm5LuSxOe5O0iTQF
 
 The same build rendered as a full document, with phases, swaps, matchup notes and cited
 evidence, is in [`docs/example-infernus.md`](docs/example-infernus.md).
+The engineering write-up (problem, tradeoffs, what I would change) is in
+[`docs/CASE_STUDY.md`](docs/CASE_STUDY.md).
 
 ## What it does
 
