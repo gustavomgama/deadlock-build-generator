@@ -152,8 +152,8 @@ data/                items_raw.json + heroes_raw.json snapshots (774 items, 65 h
 - The knowledge base is a snapshot. Patch notes after it was built are not in the corpus.
 - Generation quality is bounded by the chat model; the deterministic layer only guarantees
   that whatever is emitted is legal, resolvable and round-trips.
-- Retrieval falls back to keyword-ish hashed embeddings when Ollama is not running; recall
-  drops in that mode.
+- Retrieval falls back to a hashed embedder when Ollama is not running. The recall above was
+  measured in that fallback mode, so it is the floor, not the ceiling.
 - Deadlock is a Valve trademark. This is an unaffiliated fan tool; game data and text are
   used for non-commercial reference.
 
