@@ -1,0 +1,83 @@
+{"id":"q1","category":"ability stats","question":"What is Abrams ultimate ability?","expected_sources":["corpus/organized/heroes/abrams.md"],"expected_abstain":false}
+{"id":"q2","category":"mechanics","question":"When can the ultimate ability be unlocked in Deadlock?","expected_sources":["corpus/organized/mechanics/abilities.md"],"expected_abstain":false}
+{"id":"q3","category":"mechanics","question":"What are the soul thresholds for ability unlocks?","expected_sources":["corpus/organized/mechanics/abilities.md"],"expected_abstain":false}
+{"id":"q4","category":"item stats","question":"What does Rapid Rounds do?","expected_sources":["corpus/organized"],"expected_abstain":false}
+{"id":"q5","category":"hero comparison","question":"Compare Abrams and Seven durability","expected_sources":["corpus/organized/heroes/abrams.md","corpus/organized/heroes"],"expected_abstain":false}
+{"id":"q6","category":"builds","question":"Build me a build for Abrams","expected_sources":["corpus/organized/heroes/abrams.md","corpus/organized/mechanics/build-codes.md"],"expected_abstain":false}
+{"id":"q7","category":"multi-hop","question":"How do ability unlocks relate to boon levels?","expected_sources":["corpus/organized/mechanics/abilities.md"],"expected_abstain":false}
+{"id":"q8","category":"arithmetic","question":"How many ability points to max one ability?","expected_sources":["corpus/organized/mechanics/ability-points.md"],"expected_abstain":false}
+{"id":"q9","category":"synthesis","question":"What makes a good tank build in Deadlock?","expected_sources":["corpus/organized"],"expected_abstain":false}
+{"id":"q10","category":"derived-novel","question":"If a hero has 4 abilities, how many ability unlocks to max all?","expected_sources":["corpus/organized/mechanics/abilities.md"],"expected_abstain":false}
+{"id":"q11","category":"out-of-scope","question":"What is the capital of France?","expected_sources":[],"expected_abstain":true}
+{"id":"q12","category":"unanswerable","question":"What is the exact frame count of Abrams dash in patch 999?","expected_sources":[],"expected_abstain":true}
+{"id":"q13","category":"mechanics","question":"What is stamina used for in Deadlock?","expected_sources":["corpus/organized/mechanics/stamina.md"],"expected_abstain":false}
+{"id":"q14","category":"mechanics","question":"How does dashing work?","expected_sources":["corpus/organized/mechanics"],"expected_abstain":false}
+{"id":"q15","category":"mechanics","question":"What is the soul urn in Deadlock?","expected_sources":["corpus/organized/mechanics/soul-urn.md"],"expected_abstain":false}
+{"id":"q16","category":"patch differences","question":"What changed in the 2025-05-08 playtest patch?","expected_sources":["corpus/organized/mechanics/patch-playtest-2025-05-08.md"],"expected_abstain":false}
+{"id":"q17","category":"relational","question":"Which items scale with spirit power?","expected_sources":["corpus/organized"],"expected_abstain":false}
+{"id":"q18","category":"synthesis","question":"When should I buy weapon damage items?","expected_sources":["corpus/organized"],"expected_abstain":false}
+{"id":"q19","category":"derived-novel","question":"How many soul thresholds unlock abilities?","expected_sources":["corpus/organized/mechanics/abilities.md"],"expected_abstain":false}
+{"id":"q20","category":"out-of-scope","question":"Who won the 2022 World Cup?","expected_sources":[],"expected_abstain":true}
+{"id":"q21","category":"unanswerable","question":"What is the exact cooldown of a nonexistent ability XYZ?","expected_sources":[],"expected_abstain":true}
+{"id":"q22","category":"hero comparison","question":"Compare Seven and Infernus mobility","expected_sources":["corpus/organized/heroes"],"expected_abstain":false}
+{"id": "q23", "category": "ability stats", "question": "What is Bebop ultimate ability?", "expected_sources": ["corpus/organized/heroes/bebop.md"], "expected_abstain": false}
+{"id": "q24", "category": "item stats", "question": "What does Extended Magazine do?", "expected_sources": ["corpus/organized/items/extended-magazine.md"], "expected_abstain": false}
+{"id": "q25", "category": "builds", "question": "Build me a build for Bebop", "expected_sources": ["corpus/organized/heroes/bebop.md", "corpus/organized/mechanics/build-codes.md"], "expected_abstain": false}
+{"id": "q26", "category": "patch differences", "question": "What changed in the 2024-05-03 playtest patch?", "expected_sources": ["corpus/organized/mechanics/patch-playtest-2024-05-03.md"], "expected_abstain": false}
+{"id": "q27", "category": "multi-hop", "question": "How do soul thresholds relate to ability unlocks?", "expected_sources": ["corpus/organized/mechanics/abilities.md"], "expected_abstain": false}
+{"id": "q28", "category": "arithmetic", "question": "How many abilities can be unlocked at boon level 0?", "expected_sources": ["corpus/organized/mechanics/abilities.md"], "expected_abstain": false}
+{"id": "q29", "category": "relational", "question": "Which items scale with bullet damage?", "expected_sources": ["corpus/organized"], "expected_abstain": false}
+{"id": "q30", "category": "synthesis", "question": "What makes a good weapon damage build?", "expected_sources": ["corpus/organized"], "expected_abstain": false}
+{"id": "q31", "category": "derived-novel", "question": "How many soul thresholds are needed to unlock all abilities?", "expected_sources": ["corpus/organized/mechanics/abilities.md"], "expected_abstain": false}
+{"id": "q32", "category": "out-of-scope", "question": "What is the population of Tokyo?", "expected_sources": [], "expected_abstain": true}
+{"id": "q33", "category": "unanswerable", "question": "What is the exact cooldown of Abrams dash in patch 999?", "expected_sources": [], "expected_abstain": true}
+{"id": "q34", "category": "hero comparison", "question": "Compare Abrams and Bebop durability", "expected_sources": ["corpus/organized/heroes"], "expected_abstain": false}
+{"id": "q35", "category": "ability stats", "question": "What is Apollo ultimate ability?", "expected_sources": ["corpus/organized/heroes/apollo.md"], "expected_abstain": false}
+{"id": "q36", "category": "ability stats", "question": "What is Calico ultimate ability?", "expected_sources": ["corpus/organized/heroes/calico.md"], "expected_abstain": false}
+{"id": "q37", "category": "ability stats", "question": "What is Kelvin ultimate ability?", "expected_sources": ["corpus/organized/heroes/kelvin.md"], "expected_abstain": false}
+{"id": "q38", "category": "ability stats", "question": "What is Lady Geist ultimate ability?", "expected_sources": ["corpus/organized/heroes/lady-geist.md"], "expected_abstain": false}
+{"id": "q39", "category": "ability stats", "question": "What is Lash ultimate ability?", "expected_sources": ["corpus/organized/heroes/lash.md"], "expected_abstain": false}
+{"id": "q40", "category": "ability stats", "question": "What is McGinnis ultimate ability?", "expected_sources": ["corpus/organized/heroes/mcginnis.md"], "expected_abstain": false}
+{"id": "q41", "category": "ability stats", "question": "What is Mirage ultimate ability?", "expected_sources": ["corpus/organized/heroes/mirage.md"], "expected_abstain": false}
+{"id": "q42", "category": "ability stats", "question": "What is Shiv ultimate ability?", "expected_sources": ["corpus/organized/heroes/shiv.md"], "expected_abstain": false}
+{"id": "q43", "category": "ability stats", "question": "What is Vyper ultimate ability?", "expected_sources": ["corpus/organized/heroes/vyper.md"], "expected_abstain": false}
+{"id": "q44", "category": "ability stats", "question": "What is Warden ultimate ability?", "expected_sources": ["corpus/organized/heroes/warden.md"], "expected_abstain": false}
+{"id": "q45", "category": "ability stats", "question": "What is Wraith ultimate ability?", "expected_sources": ["corpus/organized/heroes/wraith.md"], "expected_abstain": false}
+{"id": "q46", "category": "ability stats", "question": "What is Yamato ultimate ability?", "expected_sources": ["corpus/organized/heroes/yamato.md"], "expected_abstain": false}
+{"id": "q47", "category": "item stats", "question": "What does Rapid Rounds do?", "expected_sources": ["corpus/organized/items/rapid-rounds.md"], "expected_abstain": false}
+{"id": "q48", "category": "item stats", "question": "What does Tesla Bullets do?", "expected_sources": ["corpus/organized/items/tesla-bullets.md"], "expected_abstain": false}
+{"id": "q49", "category": "item stats", "question": "What does Hollow Point do?", "expected_sources": ["corpus/organized/items/hollow-point.md"], "expected_abstain": false}
+{"id": "q50", "category": "item stats", "question": "What does Spirit Rend do?", "expected_sources": ["corpus/organized/items/spirit-rend.md"], "expected_abstain": false}
+{"id": "q51", "category": "item stats", "question": "What does Warp Stone do?", "expected_sources": ["corpus/organized/items/warp-stone.md"], "expected_abstain": false}
+{"id": "q52", "category": "patch differences", "question": "What changed in the 2024-05-10 playtest patch?", "expected_sources": ["corpus/organized/mechanics/patch-playtest-2024-05-10.md"], "expected_abstain": false}
+{"id": "q53", "category": "patch differences", "question": "What changed in the 2024-05-13 playtest patch?", "expected_sources": ["corpus/organized/mechanics/patch-playtest-2024-05-13.md"], "expected_abstain": false}
+{"id": "q54", "category": "mechanics", "question": "What is the zipline in Deadlock?", "expected_sources": ["corpus/organized/mechanics/zipline.md"], "expected_abstain": false}
+{"id": "q55", "category": "mechanics", "question": "What is wall jumping in Deadlock?", "expected_sources": ["corpus/organized/mechanics/wall-jumping.md"], "expected_abstain": false}
+{"id": "q56", "category": "mechanics", "question": "What is the rejuvenator in Deadlock?", "expected_sources": ["corpus/organized/mechanics/rejuvenator.md"], "expected_abstain": false}
+{"id": "q57", "category": "hero comparison", "question": "Compare Ivy and Kelvin mobility", "expected_sources": ["corpus/organized/heroes"], "expected_abstain": false}
+{"id": "q58", "category": "hero comparison", "question": "Compare Haze and Vyper mobility", "expected_sources": ["corpus/organized/heroes"], "expected_abstain": false}
+{"id": "q59", "category": "hero comparison", "question": "Compare Lash and Shiv mobility", "expected_sources": ["corpus/organized/heroes"], "expected_abstain": false}
+{"id": "q60", "category": "hero comparison", "question": "Compare Mirage and Paradox mobility", "expected_sources": ["corpus/organized/heroes"], "expected_abstain": false}
+{"id": "q61", "category": "hero comparison", "question": "Compare Warden and Wraith mobility", "expected_sources": ["corpus/organized/heroes"], "expected_abstain": false}
+{"id": "q62", "category": "synthesis", "question": "When should I buy spirit items?", "expected_sources": ["corpus/organized"], "expected_abstain": false}
+{"id": "q63", "category": "synthesis", "question": "When should I buy armor items?", "expected_sources": ["corpus/organized"], "expected_abstain": false}
+{"id": "q64", "category": "out-of-scope", "question": "What is the weather in Paris?", "expected_sources": [], "expected_abstain": true}
+{"id": "q65", "category": "out-of-scope", "question": "Who invented the telephone?", "expected_sources": [], "expected_abstain": true}
+{"id": "q66", "category": "out-of-scope", "question": "What is the speed of light?", "expected_sources": [], "expected_abstain": true}
+{"id": "q67", "category": "arithmetic", "question": "How many ability points to max all abilities?", "expected_sources": ["corpus/organized/mechanics/ability-points.md"], "expected_abstain": false}
+{"id": "q68", "category": "arithmetic", "question": "How many ability points for one ability?", "expected_sources": ["corpus/organized/mechanics/ability-points.md"], "expected_abstain": false}
+{"id": "q69", "category": "derived-novel", "question": "If a hero has 4 abilities, how many unlocks to max all?", "expected_sources": ["corpus/organized/mechanics/abilities.md"], "expected_abstain": false}
+{"id": "q70", "category": "out-of-scope", "question": "What is the capital of Germany?", "expected_sources": [], "expected_abstain": true}
+{"id": "q71", "category": "out-of-scope", "question": "Who wrote Hamlet?", "expected_sources": [], "expected_abstain": true}
+{"id": "q72", "category": "out-of-scope", "question": "What is the boiling point of water?", "expected_sources": [], "expected_abstain": true}
+{"id": "q73", "category": "relational", "question": "Which items scale with cooldown reduction?", "expected_sources": ["corpus/organized"], "expected_abstain": false}
+{"id": "q74", "category": "relational", "question": "Which items scale with movement speed?", "expected_sources": ["corpus/organized"], "expected_abstain": false}
+{"id": "q75", "category": "relational", "question": "Which items scale with health?", "expected_sources": ["corpus/organized"], "expected_abstain": false}
+{"id": "q76", "category": "multi-hop", "question": "How do boon levels relate to ability unlocks?", "expected_sources": ["corpus/organized/mechanics/abilities.md"], "expected_abstain": false}
+{"id": "q77", "category": "multi-hop", "question": "How do soul thresholds relate to boon levels?", "expected_sources": ["corpus/organized/mechanics/abilities.md"], "expected_abstain": false}
+{"id": "q78", "category": "multi-hop", "question": "How do ability points relate to ability unlocks?", "expected_sources": ["corpus/organized/mechanics/ability-points.md"], "expected_abstain": false}
+{"id": "q79", "category": "builds", "question": "Build me a build for Haze", "expected_sources": ["corpus/organized/heroes/haze.md", "corpus/organized/mechanics/build-codes.md"], "expected_abstain": false}
+{"id": "q80", "category": "builds", "question": "Build me a build for Ivy", "expected_sources": ["corpus/organized/heroes/ivy.md", "corpus/organized/mechanics/build-codes.md"], "expected_abstain": false}
+{"id": "q81", "category": "builds", "question": "Build me a build for Kelvin", "expected_sources": ["corpus/organized/heroes/kelvin.md", "corpus/organized/mechanics/build-codes.md"], "expected_abstain": false}
+{"id": "q82", "category": "builds", "question": "Build me a build for Lash", "expected_sources": ["corpus/organized/heroes/lash.md", "corpus/organized/mechanics/build-codes.md"], "expected_abstain": false}
+{"id": "q83", "category": "builds", "question": "Build me a build for Mirage", "expected_sources": ["corpus/organized/heroes/mirage.md", "corpus/organized/mechanics/build-codes.md"], "expected_abstain": false}

@@ -1,0 +1,21 @@
+---
+api_name: "Shadow Step"
+api_id: 3456645009
+api_class_name: "upgrade_shadow_step"
+api_type: "upgrade"
+api_slot_type: "vitality"
+api_item_tier: "5"
+api_shopable: false
+api_cost: 9999
+---
+
+# Shadow Step
+
+**Vitality · Tier 5 · 9999 souls****Teleport** straight ahead.
+
+| Stat | Value |
+|---|---|
+| Slot | Vitality |
+| Tier | 5 |
+| Cost | 9999 souls |
+| Shopable | No |

@@ -1,0 +1,130 @@
+# Item upgrade graph
+
+Edges: `base -> upgraded` (from 'Built from' / 'Builds into' in item docs).
+
+Total edges: 78
+
+## Edges
+- Bullet Lifesteal (id 499683006) → Fury Trance (id 1409190604)
+- Bullet Lifesteal (id 499683006) → Leech (id 865846625)
+- Bullet Lifesteal (id 499683006) → Vampiric Burst (id 1055679805)
+- Close Quarters (id 1342610602) → Point Blank (id 2095565695)
+- Cold Front (id 1976391348) → Arctic Blast (id 3812615317)
+- Compress Cooldown (id 380806748) → Superior Cooldown (id 3261353684)
+- Debuff Reducer (id 1047818222) → Spellbreaker (id 1955841979)
+- Debuff Reducer (id 1047818222) → Unstoppable (id 3357231760)
+- Duration Extender (id 2951612397) → Superior Duration (id 2717651715)
+- Enduring Speed (id 2447176615) → Juggernaut (id 1250307611)
+- Enduring Speed (id 2447176615) → Sprint Boots (id 3399065363)
+- Extended Magazine (id 1548066885) → Escalating Resilience (id 2463960640)
+- Extended Magazine (id 1548066885) → Titanic Magazine (id 2356412290)
+- Extra Charge (id 3776945997) → Rapid Recharge (id 787198704)
+- Extra Health (id 3633614685) → Colossus (id 2407781327)
+- Extra Health (id 3633614685) → Fortitude (id 3585132399)
+- Extra Regen (id 2829638276) → Healing Booster (id 2566692615)
+- Extra Spirit (id 968099481) → Improved Spirit (id 7409189)
+- Extra Spirit (id 968099481) → Surge of Power (id 1292979587)
+- Extra Stamina (id 4139877411) → Arcane Surge (id 1150006784)
+- Extra Stamina (id 4139877411) → Kinetic Dash (id 3977876567)
+- Extra Stamina (id 4139877411) → Stamina Mastery (id 334300056)
+- Grit (id 1672893796) → Guardian Ward (id 857669956)
+- Grit (id 1672893796) → Reactive Barrier (id 1644605047)
+- Grit (id 1672893796) → Spirit Shielding (id 112198670)
+- Grit (id 1672893796) → Weapon Shielding (id 805079544)
+- Grit (id 1672893796) → shielding items (id n/a)
+- Guardian Ward (id 857669956) → Divine Barrier (id 1662311306)
+- Guardian Ward (id 857669956) → Grit (id 1672893796)
+- Headshot Booster (id 2010028405) → Headhunter (id 4053935515)
+- Healing Booster (id 2566692615) → Extra Regen (id 2829638276)
+- Healing Booster (id 2566692615) → Healing Tempo (id 1427630806)
+- Healing Rite (id 1710079648) → Deadlock API (id n/a)
+- Healing Rite (id 1710079648) → Healing Nova (id 2956256701)
+- Healing Rite (id 1710079648) → Rescue Beam (id 1804594021)
+- High-Velocity Rounds (id 3077079169) → Armor Piercer (id 673001892)
+- High-Velocity Rounds (id 3077079169) → Express Shot (id 690458959)
+- High-Velocity Rounds (id 3077079169) → Opening Rounds (id 2064029594)
+- High-Velocity Rounds (id 3077079169) → Sharpshooter (id 2152872419)
+- High-Velocity Rounds (id 3077079169) → four later items (id n/a)
+- Improved Spirit (id 7409189) → Boundless Spirit (id 2519598785)
+- Improved Spirit (id 7409189) → Extra Spirit (id 968099481)
+- Long Range (id 3331811235) → Sharpshooter (id 2152872419)
+- Melee Charge (id 26002154) → Crushing Fists (id 800008313)
+- Melee Lifesteal (id 1437614329) → Lifestrike (id 1252627263)
+- Monster Rounds (id 1009965641) → Cultist Sacrifice (id 709540378)
+- Mystic Burst (id 1998374645) → Tankbuster (id 2121044373)
+- Mystic Expansion (id 754480263) → Ballistic Enchantment (id 3294954488)
+- Mystic Expansion (id 754480263) → Greater Expansion (id 1193964439)
+- Mystic Regeneration (id 1439347412) → Radiant Regeneration (id 2947183272)
+- Mystic Slow (id 1102081447) → Lightning Scroll (id 493591231)
+- Mystic Vulnerability (id 2081037738) → Escalating Exposure (id 3005970438)
+- Quicksilver Reload (id 84321454) → Mercurial Magnum (id 3919289022)
+- Rapid Rounds (id 668299740) → Burst Fire (id 2739107182)
+- Rapid Rounds (id 668299740) → Swift Striker (id 4104549924)
+- Reactive Barrier (id 1644605047) → Grit (id 1672893796)
+- Reactive Barrier (id 1644605047) → Indomitable (id 951866250)
+- Rusted Barrel (id 2922054143) → Deadlock API (id n/a)
+- Rusted Barrel (id 2922054143) → Disarming Hex (id 2061878743)
+- Slowing Bullets (id 393974127) → Deadlock API (id n/a)
+- Slowing Bullets (id 393974127) → Weighted Shots (id 3791587546)
+- Slowing Hex (id 1813726886) → Vortex Web (id 1152158042)
+- Spirit Lifesteal (id 876563814) → Infuser (id 1797283378)
+- Spirit Lifesteal (id 876563814) → Leech (id 865846625)
+- Spirit Lifesteal (id 876563814) → Spiritual Overflow (id 2226497419)
+- Spirit Sap (id 1219329868) → Deadlock API (id n/a)
+- Spirit Sap (id 1219329868) → Focus Lens (id 2142980412)
+- Spirit Shredder (id 1144549437) → Deadlock API (id n/a)
+- Spirit Shredder (id 1144549437) → Spirit Rend (id 4075861416)
+- Spirit Strike (id 465043967) → Spirit Snatch (id 3190916303)
+- Sprint Boots (id 3399065363) → Enduring Speed (id 2447176615)
+- Sprint Boots (id 3399065363) → Shadow Weave (id 1798666702)
+- Sprint Boots (id 3399065363) → Trophy Collector (id 3074274290)
+- Superior Cooldown (id 3261353684) → Compress Cooldown (id 380806748)
+- Superior Cooldown (id 3261353684) → Transcendent Cooldown (id 915014646)
+- Tesla Bullets (id 811521119) → Capacitor (id 710436191)
+- Tesla Bullets (id 811521119) → Deadlock API (id n/a)
+- Weakening Headshot (id 1770441818) → Crippling Headshot (id 3884003354)
+
+## Chains (base items with upgrades)
+- **Bullet Lifesteal**: Fury Trance, Vampiric Burst, Leech
+- **Close Quarters**: Point Blank
+- **Cold Front**: Arctic Blast
+- **Compress Cooldown**: Superior Cooldown
+- **Debuff Reducer**: Spellbreaker, Unstoppable
+- **Duration Extender**: Superior Duration
+- **Enduring Speed**: Juggernaut, Sprint Boots
+- **Extended Magazine**: Titanic Magazine, Escalating Resilience
+- **Extra Charge**: Rapid Recharge
+- **Extra Health**: Fortitude, Colossus
+- **Extra Regen**: Healing Booster
+- **Extra Spirit**: Improved Spirit, Surge of Power
+- **Extra Stamina**: Kinetic Dash, Stamina Mastery, Arcane Surge
+- **Grit**: shielding items, Guardian Ward, Reactive Barrier, Spirit Shielding, Weapon Shielding
+- **Guardian Ward**: Divine Barrier, Grit
+- **Headshot Booster**: Headhunter
+- **Healing Booster**: Healing Tempo, Extra Regen
+- **Healing Rite**: Healing Nova, Rescue Beam, Deadlock API
+- **High-Velocity Rounds**: four later items, Opening Rounds, Express Shot, Sharpshooter, Armor Piercer
+- **Improved Spirit**: Boundless Spirit, Extra Spirit
+- **Long Range**: Sharpshooter
+- **Melee Charge**: Crushing Fists
+- **Melee Lifesteal**: Lifestrike
+- **Monster Rounds**: Cultist Sacrifice
+- **Mystic Burst**: Tankbuster
+- **Mystic Expansion**: Greater Expansion, Ballistic Enchantment
+- **Mystic Regeneration**: Radiant Regeneration
+- **Mystic Slow**: Lightning Scroll
+- **Mystic Vulnerability**: Escalating Exposure
+- **Quicksilver Reload**: Mercurial Magnum
+- **Rapid Rounds**: Swift Striker, Burst Fire
+- **Reactive Barrier**: Indomitable, Grit
+- **Rusted Barrel**: Disarming Hex, Deadlock API
+- **Slowing Bullets**: Weighted Shots, Deadlock API
+- **Slowing Hex**: Vortex Web
+- **Spirit Lifesteal**: Infuser, Spiritual Overflow, Leech
+- **Spirit Sap**: Focus Lens, Deadlock API
+- **Spirit Shredder**: Spirit Rend, Deadlock API
+- **Spirit Strike**: Spirit Snatch
+- **Sprint Boots**: Enduring Speed, Trophy Collector, Shadow Weave
+- **Superior Cooldown**: Transcendent Cooldown, Compress Cooldown
+- **Tesla Bullets**: Capacitor, Deadlock API
+- **Weakening Headshot**: Crippling Headshot

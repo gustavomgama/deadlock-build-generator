@@ -1,0 +1,5 @@
+{"id":"h1","category":"mechanics","question":"How many ability points total to max all four abilities?","expected_sources":["corpus/organized/mechanics/ability-points.md"],"expected_abstain":false}
+{"id":"h2","category":"out-of-scope","question":"What is the weather in London?","expected_sources":[],"expected_abstain":true}
+{"id":"h3","category":"hero comparison","question":"Compare Abrams and Haze durability","expected_sources":["corpus/organized/heroes"],"expected_abstain":false}
+{"id":"h4","category":"unanswerable","question":"What is the exact damage of ability X in patch 0.0.0?","expected_sources":[],"expected_abstain":true}
+{"id":"h5","category":"builds","question":"Build me a build for Seven","expected_sources":["corpus/organized/heroes","corpus/organized/mechanics/build-codes.md"],"expected_abstain":false}

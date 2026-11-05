@@ -1,0 +1,279 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:deadlock:build-code-schema",
+  "title": "Deadlock build code (decoded JSON)",
+  "description": "The JSON shape of a decoded Deadlock build code. A build code is base64(zstd(protobuf)); decoding it yields the object described here. This is the machine-readable companion of marklock/organized/mechanics/build-codes.md, which is the canonical prose reference. The field names and the protobuf field numbers are those of decode_build_code.py and encode_build_code.py, mirrored by codec-site/lib/deadlock_codec.rb; the API shape of the same payload is BuildHero in deadlock-api/api-1.json (its mod_categories[].mods entries are objects with ability_id, while the local codec decodes them to a flat list of item ids).",
+  "type": "object",
+  "required": ["hero_id", "details"],
+  "additionalProperties": true,
+  "properties": {
+    "hero_id": {
+      "type": ["integer", "null"],
+      "minimum": 0,
+      "description": "Hero the build is for. Protobuf field 1. Resolve with list_heroes or heroes_raw.json; validate_build.py raises an error for an unknown hero id."
+    },
+    "version": {
+      "type": ["integer", "null"],
+      "minimum": 0,
+      "description": "Edit counter of the build. Protobuf field 2. The local client files use 13; published builds use 90-94."
+    },
+    "hero_build_id": {
+      "type": ["integer", "null"],
+      "minimum": 0,
+      "description": "Id of this build. Protobuf field 3. In the client's own files it equals the local Steam account id; in published builds it is the per-hero build number."
+    },
+    "author_account_id": {
+      "type": ["integer", "null"],
+      "minimum": 0,
+      "description": "Steam account that owns the build. Protobuf field 4."
+    },
+    "name": {
+      "type": ["string", "null"],
+      "description": "Build title. Protobuf field 5. validate_build.py warns when it is empty."
+    },
+    "description": {
+      "type": ["string", "null"],
+      "description": "Free-text description. Protobuf field 6."
+    },
+    "language": {
+      "type": ["integer", "null"],
+      "minimum": 0,
+      "description": "Language of the build. Protobuf field 7. 0 (English) in every observed sample; no other value was ever seen."
+    },
+    "origin_build_id": {
+      "type": ["integer", "null"],
+      "minimum": 0,
+      "description": "Id of the build this one was copied from. Protobuf field 8."
+    },
+    "field_9": {
+      "type": ["integer", "null"],
+      "description": "Protobuf field 9. Meaning unknown; copied through untouched and never set by this repository."
+    },
+    "tags": {
+      "type": "array",
+      "items": {"type": "integer"},
+      "description": "Protobuf field 11, repeated varint. Holds the ability and upgrade ids the build references (a published Seven build carries 539192269, 2061574352, 1074714947)."
+    },
+    "field_13": {
+      "type": ["integer", "null"],
+      "description": "Protobuf field 13. Meaning unknown in build codes; in the client's own cache it repeats the last-updated timestamp."
+    },
+    "details": {"$ref": "#/$defs/details"}
+  },
+  "$defs": {
+    "details": {
+      "type": "object",
+      "required": ["mod_categories"],
+      "description": "Protobuf field 10 of the build. Holds the item categories and the ability timeline.",
+      "properties": {
+        "mod_categories": {
+          "type": "array",
+          "items": {"$ref": "#/$defs/mod_category"},
+          "description": "Protobuf field 1, repeated. The item categories in the order the player wrote them."
+        },
+        "ability_order": {
+          "oneOf": [{"$ref": "#/$defs/ability_order"}, {"type": "null"}],
+          "description": "Protobuf field 2. Null when the build carries no ability order."
+        }
+      }
+    },
+    "mod_category": {
+      "type": "object",
+      "required": ["name"],
+      "description": "One item category, the unit the client shows as a build panel box.",
+      "properties": {
+        "mods": {
+          "type": "array",
+          "items": {"type": "integer", "minimum": 0},
+          "description": "Protobuf field 1, repeated message. The local codec decodes each entry to the item id only (its field 1); the live game also stores an annotation, a sell priority and an imbue target ability per entry, which the local codec drops."
+        },
+        "name": {
+          "type": ["string", "null"],
+          "description": "Protobuf field 2. The category label. A free-form label: the client stores, renders and re-imports whatever text the author typed. The labels the client itself ships are the localisation keys #Citadel_HeroBuilds_Early, _Mid, _Late, _EarlyGame, _MidGame, _LateGame and _Lane, plus the plain phase names early, early-mid, mid, mid-late, late, late-late, optional spirit-resist and optional general-resist-sustain."
+        },
+        "description": {
+          "type": ["string", "null"],
+          "description": "Protobuf field 3. Optional note shown under the label."
+        },
+        "height": {
+          "type": ["number", "null"],
+          "description": "Protobuf field 4, float32. Cosmetic box height in pixels; not a fixed value and not required by the client."
+        },
+        "width": {
+          "type": ["number", "null"],
+          "description": "Protobuf field 5, float32. Cosmetic box width in pixels; not a fixed value and not required by the client."
+        },
+        "optional": {
+          "type": ["boolean", "null"],
+          "description": "Protobuf field 6, varint flag. Marks the category as optional in the client."
+        }
+      }
+    },
+    "ability_order": {
+      "type": "object",
+      "required": ["currency_changes"],
+      "description": "The ability timeline: one entry per spend, in the order the player made it.",
+      "properties": {
+        "currency_changes": {
+          "type": "array",
+          "items": {"$ref": "#/$defs/currency_change"},
+          "description": "Protobuf field 1, repeated message. A fully maxed hero has 16 entries: 4 unlocks and 12 point spends (4 x -1, 4 x -2, 4 x -5)."
+        }
+      }
+    },
+    "currency_change": {
+      "type": "object",
+      "required": ["ability_id", "currency_type", "delta"],
+      "description": "One spend in the ability timeline.",
+      "properties": {
+        "ability_id": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Protobuf field 1. Ability id (type: ability in items_raw.json / list_items), not an item id."
+        },
+        "currency_type": {
+          "type": "integer",
+          "enum": [1, 2],
+          "description": "Protobuf field 2. 1 = ability points, 2 = ability unlock. validate_build.py errors on any other value."
+        },
+        "delta": {
+          "type": "integer",
+          "exclusiveMaximum": 0,
+          "description": "Protobuf field 3. Amount spent, always negative. The ladder the client writes is -1 for an unlock (currency_type 2), then -1, -2 and -5 for the three upgrade tiers (currency_type 1). validate_build.py errors on 0 and on positive values."
+        },
+        "annotation": {
+          "type": ["string", "null"],
+          "description": "Protobuf field 4. Optional label shown in the client, for example '3rd skill'."
+        }
+      }
+    }
+  },
+  "x-canonical-document": "marklock/organized/mechanics/build-codes.md",
+  "x-ground-truth-document": "marklock/organized/mechanics/hero-build-cache.md",
+  "x-surfaces": ["rag-corpus", "oracle-agent", "build-command", "tooling"],
+  "x-wire-format": {
+    "encoding": "base64(zstd(protobuf))",
+    "zstd_magic_hex": "28b52ffd",
+    "raw_protobuf_accepted": true,
+    "evidence": "decode_build_code.py (zstd magic check), codec-site/lib/deadlock_codec.rb (ZSTD_MAGIC), build.bin vs build.zst headers"
+  },
+  "x-categories": {
+    "client_localisation_keys": [
+      "#Citadel_HeroBuilds_Early",
+      "#Citadel_HeroBuilds_Mid",
+      "#Citadel_HeroBuilds_Late",
+      "#Citadel_HeroBuilds_EarlyGame",
+      "#Citadel_HeroBuilds_MidGame",
+      "#Citadel_HeroBuilds_LateGame",
+      "#Citadel_HeroBuilds_Lane"
+    ],
+    "plain_phase_names": [
+      "early",
+      "early-mid",
+      "mid",
+      "mid-late",
+      "late",
+      "late-late",
+      "optional spirit-resist",
+      "optional general-resist-sustain"
+    ],
+    "free_form_labels_allowed": true,
+    "validator_warns_on_unknown_name": true,
+    "evidence": "decode_kv3.py --builds on the client's cached_hero_builds.kv3 (94 distinct names, 79 of them player-authored); validate_build.py VALID_CATEGORIES"
+  },
+  "x-ability-order-ladder": {
+    "entries_for_a_fully_maxed_hero": 16,
+    "pairs": [
+      {"currency_type": 2, "delta": -1, "count": 4, "meaning": "unlock one ability (one Ability Unlock each)"},
+      {"currency_type": 1, "delta": -1, "count": 4, "meaning": "first upgrade tier, 1 Ability Point"},
+      {"currency_type": 1, "delta": -2, "count": 4, "meaning": "second upgrade tier, 2 Ability Points"},
+      {"currency_type": 1, "delta": -5, "count": 4, "meaning": "third upgrade tier, 5 Ability Points"}
+    ],
+    "spend_order": "tier by tier or per ability; both shapes occur in the client's own saved builds",
+    "evidence": "decode_kv3.py --builds on cached_hero_builds.kv3 (439 entries: 2/-1 118, 1/-1 112, 1/-2 110, 1/-5 99); 40 published builds from https://api.deadlock-api.com/v1/builds?limit=40 (160 of each pair); mechanics/ability-points.md"
+  },
+  "x-id-resolution": {
+    "hero_ids": "list_heroes (deadlock-api MCP) or heroes_raw.json",
+    "item_ids": "list_items (deadlock-api MCP) or items_raw.json, type: upgrade",
+    "ability_ids": "list_items (deadlock-api MCP) or items_raw.json, type: ability",
+    "rule": "Never invent an id. Item ids change with patches, so the lookup is the procedure, not a stored table."
+  },
+  "x-verification": {
+    "decode": "python decode_build_code.py <build.json-or-code>",
+    "encode": "python encode_build_code.py <build.json>",
+    "validate": "python validate_build.py <build.json-or-code>",
+    "import_bar": "decode the produced code back, run validate_build.py on it with 0 errors, and resolve every item and ability id against the game's own data"
+  },
+  "x-claims": [
+    {
+      "surface": "rag-corpus",
+      "claim": "A build code is base64(zstd(protobuf)); a raw uncompressed protobuf payload is accepted too",
+      "evidence": "decode_build_code.py zstd magic check; codec-site/lib/deadlock_codec.rb ZSTD_MAGIC; build.bin vs build.zst headers; published codes from /v1/builds",
+      "confidence": "verified",
+      "discovered_at": "2026-10-20"
+    },
+    {
+      "surface": "rag-corpus",
+      "claim": "The top-level keys map to protobuf fields 1-13 as listed in this schema",
+      "evidence": "decode_build_code.py get_int/get_str; encode_build_code.py encode_field; codec-site/lib/deadlock_codec.rb build_hash and encode_top",
+      "confidence": "verified",
+      "discovered_at": "2026-10-20"
+    },
+    {
+      "surface": "rag-corpus",
+      "claim": "A mod_category uses fields 1-6 (mods, name, description, height, width, optional) and a mods entry holds the item id in its field 1",
+      "evidence": "decode_build_code.py mod_categories parsing; encode_build_code.py encode_category; deadlock_codec.rb parse_category; BuildHeroDetailsCategory in deadlock-api/api-1.json",
+      "confidence": "verified",
+      "discovered_at": "2026-10-20"
+    },
+    {
+      "surface": "rag-corpus",
+      "claim": "A category name is a free-form label; the client ships 7 #Citadel_HeroBuilds_* keys and 8 plain phase names, and imports names outside the validator's set",
+      "evidence": "decode_kv3.py --builds on the client's cached_hero_builds.kv3 (94 distinct names, 79 player-authored); validate_build.py VALID_CATEGORIES (warning only)",
+      "confidence": "verified",
+      "discovered_at": "2026-10-20"
+    },
+    {
+      "surface": "rag-corpus",
+      "claim": "An ability order carries 4 unlocks (currency_type 2, delta -1) plus 4 x -1, 4 x -2 and 4 x -5 point spends (currency_type 1)",
+      "evidence": "decode_kv3.py --builds on cached_hero_builds.kv3; 40 published builds from /v1/builds; the 43 generated builds in codec-site/test/fixtures/files/builds_all_heroes.md",
+      "confidence": "verified",
+      "discovered_at": "2026-10-20"
+    },
+    {
+      "surface": "rag-corpus",
+      "claim": "currency_type must be 1 or 2 and delta must be a negative integer",
+      "evidence": "validate_build.py",
+      "confidence": "verified",
+      "discovered_at": "2026-10-20"
+    },
+    {
+      "surface": "rag-corpus",
+      "claim": "mods entries hold item ids while ability_order entries hold ability ids",
+      "evidence": "items_raw.json resolves every id in build.bin to an item of type upgrade; the ability ids of Seven resolve to type ability",
+      "confidence": "verified",
+      "discovered_at": "2026-10-20"
+    },
+    {
+      "surface": "tooling",
+      "claim": "height and width are cosmetic and not fixed",
+      "evidence": "171 distinct (height, width) pairs across 40 published builds; the client's own files use 861.75 x 172.5, 807.0 x 205.5 and 840.75 x 192.0",
+      "confidence": "verified",
+      "discovered_at": "2026-10-20"
+    },
+    {
+      "surface": "tooling",
+      "claim": "The payload in the client's cached_hero_builds.kv3 numbers the hero id in field 2, while this schema (following decode_build_code.py) labels field 1 hero_id and field 2 version",
+      "evidence": "marklock/organized/mechanics/hero-build-cache.md: 23 of 24 builds with an ability order carry only their own hero's ability ids; Haze - Oracle Build has field 1 6 and field 2 13",
+      "confidence": "unverified",
+      "discovered_at": "2026-10-20"
+    },
+    {
+      "surface": "tooling",
+      "claim": "The meaning of field_9, field_13 and of a non-zero language is unknown",
+      "evidence": "never set by this repository; field 13 repeats the timestamp in the client's cache, field 9 carries an id of unknown kind",
+      "confidence": "unverified",
+      "discovered_at": "2026-10-20"
+    }
+  ]
+}
