@@ -12,7 +12,7 @@ are legal and verifiable".
 
 Four layers, each able to fail on its own:
 
-1. **Retrieval** (`rag.py`) — 566 curated markdown documents chunked into 3,101 records,
+1. **Retrieval** (`rag.py`) — 563 curated markdown documents chunked into 3,101 records,
    ranked with BM25 + cosine + MMR over a JSON index. A scope gate and a token-coverage
    check let it abstain instead of answering from model memory.
 2. **Planning** (`buildgen.py`) — a 14-section template plus retrieved evidence plus the

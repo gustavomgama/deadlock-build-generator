@@ -33,7 +33,7 @@ The engineering write-up (problem, tradeoffs, what I would change) is in
 
 | Component | Job |
 | --- | --- |
-| `rag.py` | Local retrieval oracle: indexes a curated Deadlock corpus (566 documents) into 3,101 chunks, hybrid BM25 + cosine + MMR retrieval, scope gate, abstention |
+| `rag.py` | Local retrieval oracle: indexes a curated Deadlock corpus (563 documents) into 3,101 chunks, hybrid BM25 + cosine + MMR retrieval, scope gate, abstention |
 | `buildgen.py` | Retrieves hero/ability/item/mechanic facts, plans a build, resolves every ID against live game data, encodes it, decodes it back, validates it |
 | `webui.py` | Dependency-free `http.server` UI over both of the above |
 | `eval.py` | Retrieval harness: recall@k and abstention accuracy per category |
@@ -95,6 +95,10 @@ python buildgen.py Infernus --role "spirit burn carry" --ability-order
 
 # 4. or use the browser UI
 python webui.py                      # http://127.0.0.1:8000
+
+# 5. run the tests and the retrieval eval (no model or API key needed)
+python -m unittest discover -s tests
+python eval.py
 ```
 
 ![The local web UI](docs/screenshot-ui.png)
@@ -161,7 +165,9 @@ eval/                83 labelled questions, current and held-out splits
 RAG_SPEC.md          written retrieval specification
 tests/               build invariant tests (round trip, unknown IDs, duplicates)
 codec/               base64 <-> zstd <-> protobuf build code codec (MIT)
-corpus/organized/    566 curated markdown docs: heroes, items, mechanics, oracle
+corpus/organized/    563 curated markdown docs: heroes, items, mechanics, oracle
+build_all.py         batch runner: generates and saves builds for every hero
+make_analytics.py    fetches per-hero item pick/win rates for `buildgen.py --analytics`
 data/                items_raw.json + heroes_raw.json snapshots (774 items, 65 heroes)
 ```
 

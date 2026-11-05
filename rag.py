@@ -848,6 +848,10 @@ def _in_scope(question: str) -> bool:
     return bool(toks & terms)
 
 
+def _visible(text: str) -> str:
+    return re.sub(r"^\s*---\s*\n.*?\n---\s*\n", "", text or "", flags=re.S)
+
+
 def query(index_path, question: str, top_k: int = 5, filters: Dict[str, Any] = None, history: List[str] = None, rewrite = False, min_score: float = None, as_json: bool = False, mmr_lambda: float = 0.7, current_only: bool = False, generate: bool = True) -> str:
     _METRICS["queries"] += 1
     question = " ".join((question or "").split())[:500]
@@ -1018,7 +1022,7 @@ def query(index_path, question: str, top_k: int = 5, filters: Dict[str, Any] = N
         if as_json:
             return "[]"
         return "Insufficient data: I cannot answer this from the retrieved Deadlock sources."
-    context = "\n\n".join(f"[{r.get('citation', r.get('source_path'))}] {r.get('content','')}" for r in top)
+    context = "\n\n".join(f"[{r.get('citation', r.get('source_path'))}] {_visible(r.get('content',''))}" for r in top)
     if as_json:
         _maybe_log_query(question, top, False)
         payload = []
@@ -1026,7 +1030,7 @@ def query(index_path, question: str, top_k: int = 5, filters: Dict[str, Any] = N
             payload.append({
                 "citation": r.get("citation", r.get("source_path")),
                 "score": round(_score(r), 4),
-                "snippet": " ".join(r["content"].split())[:400],
+                "snippet": " ".join(_visible(r["content"]).split())[:400],
             })
         return json.dumps(payload, ensure_ascii=False, indent=2)
     generated = _opencode_generate(question, context) if generate and opencode_available() else ""
@@ -1037,7 +1041,7 @@ def query(index_path, question: str, top_k: int = 5, filters: Dict[str, Any] = N
         lines.append("")
     lines.append(f"Retrieved (top {len(top)}):")
     for i, r in enumerate(top, 1):
-        snippet = " ".join(r["content"].split())[:400]
+        snippet = " ".join(_visible(r["content"]).split())[:400]
         md = r.get("metadata") or {}
         meta = []
         if md.get("patch_version"):
