@@ -1,0 +1,341 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f3f1e9">
+  <link rel="icon" href="data:,">
+  <meta name="description" content="An engineering case study in grounded Deadlock build generation: local retrieval, hosted model planning, and a fail-closed validation chain.">
+  <title>Deadlock Build Generator — Engineering case study</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --paper: #f3f1e9;
+      --surface: #fbfaf6;
+      --ink: #24241f;
+      --muted: #65645c;
+      --line: #d9d5ca;
+      --brass: #8b5c19;
+      --brass-pale: #e8dcc3;
+      --olive: #44483d;
+      --mono: ui-monospace, "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+      --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      --serif: Georgia, "Times New Roman", serif;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      background: var(--paper);
+      color: var(--ink);
+      font: 16px/1.6 var(--sans);
+      -webkit-font-smoothing: antialiased;
+    }
+    a { color: inherit; text-underline-offset: .22em; text-decoration-thickness: 1px; }
+    a:focus-visible { outline: 3px solid var(--brass); outline-offset: 4px; }
+    img, svg { display: block; max-width: 100%; }
+    figure { margin: 0; }
+    .wrap { width: min(1160px, calc(100% - 56px)); margin-inline: auto; }
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      min-height: 76px;
+      border-bottom: 1px solid var(--line);
+    }
+    .wordmark { font-weight: 650; letter-spacing: -.035em; text-decoration: none; }
+    .wordmark span { color: var(--muted); font-weight: 400; }
+    .nav { display: flex; align-items: center; gap: 28px; font-size: 14px; }
+    .nav a { text-decoration: none; }
+    .nav a:hover, .text-link:hover { color: var(--brass); }
+    .repo-link { font-weight: 650; }
+    .hero {
+      display: grid;
+      grid-template-columns: minmax(0, .94fr) minmax(420px, 1.06fr);
+      gap: clamp(48px, 8vw, 112px);
+      align-items: center;
+      padding-block: clamp(72px, 10vw, 132px) 94px;
+    }
+    .eyebrow, .section-index, .diagram-label, .caption, .stack-label {
+      color: var(--muted);
+      font-family: var(--mono);
+      font-size: 12px;
+      line-height: 1.5;
+    }
+    .eyebrow { margin: 0 0 22px; }
+    h1, h2, h3, p { margin-top: 0; }
+    h1 {
+      max-width: 680px;
+      margin-bottom: 24px;
+      font: 400 clamp(44px, 5.5vw, 72px)/1.02 var(--serif);
+      letter-spacing: -.045em;
+    }
+    .intro { max-width: 530px; margin-bottom: 30px; color: #51514a; font-size: 18px; line-height: 1.65; }
+    .actions { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; }
+    .button {
+      display: inline-flex;
+      min-height: 48px;
+      align-items: center;
+      justify-content: center;
+      padding: 11px 17px;
+      border: 1px solid var(--brass);
+      background: var(--brass);
+      color: #fff;
+      font-size: 14px;
+      font-weight: 650;
+      text-decoration: none;
+    }
+    .button:active { background: #704710; }
+    .button.secondary { background: transparent; color: var(--ink); border-color: #aaa69a; }
+    .button.secondary:active { background: var(--brass-pale); }
+    .project-note { margin: 24px 0 0; color: var(--muted); font-size: 13px; }
+    .project-note strong { color: var(--ink); font-weight: 600; }
+    .diagram-wrap {
+      padding: 22px 18px 18px;
+      border: 1px solid #bdb8aa;
+      background: #eae7dd;
+      box-shadow: 10px 10px 0 #dfdbd0;
+    }
+    .diagram-head { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; margin-bottom: 16px; }
+    .diagram-head strong { font-size: 14px; font-weight: 650; }
+    .diagram-label { text-align: right; }
+    .flow { width: 100%; height: auto; }
+    .diagram-note { margin: 13px 0 0; color: var(--muted); font-size: 13px; }
+    .rule { border: 0; border-top: 1px solid var(--line); margin: 0; }
+    .section { padding-block: clamp(64px, 8vw, 102px); }
+    .section-head { display: grid; grid-template-columns: 180px minmax(0, 1fr); gap: 40px; margin-bottom: 42px; }
+    .section-index { margin: 8px 0 0; }
+    h2 { max-width: 720px; margin-bottom: 14px; font: 400 clamp(34px, 4vw, 48px)/1.12 var(--serif); letter-spacing: -.035em; }
+    .section-lede { max-width: 720px; margin: 0; color: #56564f; font-size: 17px; }
+    .split { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(32px, 7vw, 100px); margin-left: 220px; }
+    .split h3 { margin-bottom: 10px; font-size: 16px; font-weight: 650; }
+    .split p { max-width: 420px; margin-bottom: 0; color: #55554e; }
+    .boundary { border-top: 2px solid var(--brass); padding-top: 15px; }
+    .boundary.remote { border-color: var(--olive); }
+    .boundary .stack-label { margin-bottom: 8px; }
+    .evidence { padding-block: 82px; background: #e8e5dc; }
+    .evidence .section-head { margin-bottom: 38px; }
+    .results { display: grid; grid-template-columns: 1fr 1fr; border-top: 1px solid #c7c2b7; }
+    .result { padding: 22px 30px 20px 0; border-bottom: 1px solid #c7c2b7; }
+    .result:nth-child(2n) { padding-left: 30px; border-left: 1px solid #c7c2b7; }
+    .result h3 { margin-bottom: 7px; font-size: 15px; font-weight: 650; }
+    .result strong { display: block; margin-bottom: 6px; color: var(--brass); font: 400 32px/1.15 var(--serif); font-variant-numeric: tabular-nums; }
+    .result p { margin: 0; color: #55554e; font-size: 14px; }
+    .caveat { max-width: 800px; margin: 22px 0 0; padding-left: 14px; border-left: 2px solid var(--brass); color: #55554e; font-size: 14px; }
+    .stack {
+      display: grid;
+      grid-template-columns: 180px minmax(0, 1fr);
+      gap: 40px;
+      padding-top: 30px;
+      margin-top: 48px;
+      border-top: 1px solid #c7c2b7;
+    }
+    .stack p { margin: 0; color: #4e4e47; }
+    .artifact {
+      display: grid;
+      grid-template-columns: minmax(250px, .82fr) minmax(0, 1.18fr);
+      gap: clamp(42px, 8vw, 112px);
+      align-items: center;
+    }
+    .artifact-copy h2 { margin-bottom: 18px; }
+    .artifact-copy p { max-width: 430px; color: #55554e; }
+    .text-link { color: var(--brass); font-weight: 650; }
+    .shot-frame { padding: 11px; border: 1px solid #c9c5ba; background: var(--surface); }
+    .shot-frame a { display: block; }
+    .shot-frame img { width: 100%; height: auto; border: 1px solid #e0ddd4; }
+    .caption { margin: 10px 2px 0; }
+    .closing {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 36px;
+      padding-block: 58px;
+      border-top: 1px solid var(--line);
+    }
+    .closing h2 { max-width: 620px; margin: 0; font-size: clamp(32px, 4vw, 44px); }
+    .footer { display: flex; justify-content: space-between; gap: 24px; padding-block: 22px 34px; border-top: 1px solid var(--line); color: var(--muted); font-size: 12px; }
+    .footer p { margin: 0; }
+    @media (max-width: 850px) {
+      .hero { grid-template-columns: 1fr; gap: 52px; padding-top: 74px; }
+      .hero-copy { max-width: 670px; }
+      .diagram-wrap { max-width: 680px; }
+      .section-head, .stack { grid-template-columns: 130px minmax(0, 1fr); gap: 24px; }
+      .split { margin-left: 154px; gap: 32px; }
+      .artifact { grid-template-columns: minmax(210px, .8fr) minmax(0, 1.2fr); gap: 38px; }
+    }
+    @media (max-width: 620px) {
+      .wrap { width: min(100% - 36px, 520px); }
+      .topbar { min-height: 64px; }
+      .nav { gap: 16px; font-size: 13px; }
+      .nav a:not(.repo-link) { display: none; }
+      .hero { gap: 42px; padding-block: 62px 68px; }
+      h1 { font-size: clamp(43px, 12vw, 58px); }
+      .intro { font-size: 16px; }
+      .actions { align-items: stretch; }
+      .button { min-height: 48px; }
+      .diagram-wrap { padding: 16px 12px 14px; box-shadow: 6px 6px 0 #dfdbd0; }
+      .diagram-head { align-items: flex-start; flex-direction: column; gap: 3px; }
+      .diagram-label { text-align: left; }
+      .flow { min-width: 0; }
+      .section { padding-block: 62px; }
+      .section-head { display: block; margin-bottom: 30px; }
+      .section-index { margin: 0 0 17px; }
+      .section-lede { font-size: 16px; }
+      .split { grid-template-columns: 1fr; gap: 26px; margin-left: 0; }
+      .evidence { padding-block: 64px; }
+      .results { grid-template-columns: 1fr; }
+      .result, .result:nth-child(2n) { padding: 18px 0; border-left: 0; }
+      .stack { display: block; margin-top: 38px; }
+      .stack-label { display: block; margin-bottom: 11px; }
+      .artifact { grid-template-columns: 1fr; gap: 30px; }
+      .closing { align-items: flex-start; flex-direction: column; padding-block: 48px; }
+      .footer { flex-direction: column; gap: 8px; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+    }
+  </style>
+</head>
+<body>
+  <header class="wrap topbar">
+    <a class="wordmark" href="#top">Deadlock <span>/ Build generator</span></a>
+    <nav class="nav" aria-label="Main navigation">
+      <a href="#approach">Approach</a>
+      <a href="#evidence">Evidence</a>
+      <a class="repo-link" href="https://github.com/gustavomgama/deadlock-build-generator">Repository</a>
+    </nav>
+  </header>
+  <main id="top">
+    <section class="wrap hero" aria-labelledby="page-title">
+      <div class="hero-copy">
+        <p class="eyebrow">Engineering case study · local retrieval, checked output</p>
+        <h1 id="page-title">A build is only real after it survives the round trip.</h1>
+        <p class="intro">A local RAG oracle grounds Deadlock build generation in a curated knowledge base. A hosted model proposes the plan; local code resolves it, encodes it, decodes it, and validates it before a build code can leave the process.</p>
+        <div class="actions">
+          <a class="button" href="https://github.com/gustavomgama/deadlock-build-generator">View the repository</a>
+          <a class="button secondary" href="#case-study">Read the case study</a>
+          <a class="button secondary" href="example-infernus.md">Open an example build</a>
+        </div>
+        <p class="project-note"><strong>Independent fan project.</strong> Not affiliated with Valve or Deadlock.</p>
+      </div>
+      <figure class="diagram-wrap" aria-labelledby="diagram-title">
+        <div class="diagram-head">
+          <strong id="diagram-title">The verification chain</strong>
+          <span class="diagram-label">local → hosted model → local</span>
+        </div>
+        <svg class="flow" viewBox="0 0 700 300" role="img" aria-labelledby="flow-title flow-desc">
+          <title id="flow-title">Build generation and verification flow</title>
+          <desc id="flow-desc">Local corpus and index feed local retrieval. A hosted model plans from retrieved evidence. Local code resolves item IDs, encodes the build, decodes it again, and validates it before output.</desc>
+          <defs>
+            <marker id="arrow" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto">
+              <path d="M0,0 L8,4 L0,8 Z" fill="#8b5c19" />
+            </marker>
+          </defs>
+          <path d="M130 132 H157 M260 132 H286 M390 132 H416 M520 132 H546" fill="none" stroke="#8b5c19" stroke-width="2" marker-end="url(#arrow)" />
+          <path d="M405 49 V235" stroke="#9c998f" stroke-width="1" stroke-dasharray="4 5" />
+          <text x="100" y="49" text-anchor="middle" fill="#65645c" font-size="12" font-family="ui-monospace, monospace">LOCAL</text>
+          <text x="348" y="49" text-anchor="middle" fill="#65645c" font-size="12" font-family="ui-monospace, monospace">HOSTED ENDPOINT</text>
+          <text x="596" y="49" text-anchor="middle" fill="#65645c" font-size="12" font-family="ui-monospace, monospace">LOCAL</text>
+          <rect x="12" y="88" width="118" height="88" fill="#fbfaf6" stroke="#bdb8aa" />
+          <rect x="157" y="88" width="103" height="88" fill="#fbfaf6" stroke="#bdb8aa" />
+          <rect x="287" y="88" width="103" height="88" fill="#e8dcc3" stroke="#b79b6b" />
+          <rect x="417" y="88" width="103" height="88" fill="#fbfaf6" stroke="#bdb8aa" />
+          <rect x="547" y="88" width="140" height="88" fill="#fbfaf6" stroke="#bdb8aa" />
+          <g fill="#24241f" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="13" text-anchor="middle">
+            <text x="71" y="119"><tspan x="71">Curated</tspan><tspan x="71" dy="19">corpus +</tspan><tspan x="71" dy="19">index</tspan></text>
+            <text x="208" y="119"><tspan x="208">Retrieve</tspan><tspan x="208" dy="19">ranked</tspan><tspan x="208" dy="19">evidence</tspan></text>
+            <text x="338" y="119"><tspan x="338">Plan from</tspan><tspan x="338" dy="19">the supplied</tspan><tspan x="338" dy="19">evidence</tspan></text>
+            <text x="468" y="119"><tspan x="468">Resolve</tspan><tspan x="468" dy="19">names to</tspan><tspan x="468" dy="19">real IDs</tspan></text>
+            <text x="617" y="119"><tspan x="617">Encode → decode</tspan><tspan x="617" dy="19">→ validate</tspan><tspan x="617" dy="19">before output</tspan></text>
+          </g>
+          <text x="350" y="251" text-anchor="middle" fill="#55554e" font-size="13" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif">A failed check stops the build. No unverified code is printed.</text>
+        </svg>
+        <figcaption class="diagram-note">Retrieval and validation stay local; answering and build generation use the hosted model endpoint.</figcaption>
+      </figure>
+    </section>
+    <hr class="rule">
+    <section class="wrap section" id="case-study" aria-labelledby="approach-title">
+      <div class="section-head" id="approach">
+        <p class="section-index">Approach</p>
+        <div>
+          <h2 id="approach-title">Keep the model useful. Keep the artifact accountable.</h2>
+          <p class="section-lede">The hard problem was not getting a model to suggest a build. It was preventing plausible-looking text from becoming an invalid import code.</p>
+        </div>
+      </div>
+      <div class="split">
+        <div class="boundary">
+          <p class="stack-label">Local evidence</p>
+          <h3>Retrieval can abstain.</h3>
+          <p>563 curated Markdown documents become 3,101 chunks, ranked with BM25, cosine similarity, and MMR. Scope and token-coverage checks let the oracle decline an unsupported answer instead of filling gaps from model memory.</p>
+        </div>
+        <div class="boundary remote">
+          <p class="stack-label">Hosted planning · local checks</p>
+          <h3>Names are suggestions; IDs are resolved.</h3>
+          <p>The model receives retrieved evidence and legal item candidates, then returns a plan. Local code resolves every item name to game data and stops on unknown names before encoding.</p>
+        </div>
+      </div>
+    </section>
+    <section class="evidence" id="evidence" aria-labelledby="evidence-title">
+      <div class="wrap">
+        <div class="section-head">
+          <p class="section-index">Measured results</p>
+          <div>
+            <h2 id="evidence-title">Strong checks, clearly bounded.</h2>
+            <p class="section-lede">The scores measure retrieval and deterministic build checks—not whether a model's strategic advice wins a match.</p>
+          </div>
+        </div>
+        <div class="results">
+          <article class="result">
+            <h3>Retrieval · 83 questions</h3>
+            <strong>0.972 recall@5</strong>
+            <p>69 of 71 answerable questions retrieved a relevant chunk in the top five.</p>
+          </article>
+          <article class="result">
+            <h3>Abstention · expected abstentions</h3>
+            <strong>1.000 accuracy</strong>
+            <p>12 of 12 questions that should be declined were correctly abstained on.</p>
+          </article>
+          <article class="result">
+            <h3>Build generation · 12 cases</h3>
+            <strong>1.000 average score</strong>
+            <p>12 of 12 generated builds scored 1.000 and passed code, ID, and template checks.</p>
+          </article>
+          <article class="result">
+            <h3>End-to-end runtime</h3>
+            <strong>49–76 sec / build</strong>
+            <p>Measured against a hosted chat model; a build is returned only after encode, decode, and validation succeed.</p>
+          </article>
+        </div>
+        <p class="caveat">The held-out retrieval split has only five questions: 3 answerable and 2 expected abstentions. It returned 3/3 recall and 2/2 abstention; treat it as a small sanity check, not a reliable estimate of general performance.</p>
+        <div class="stack">
+          <span class="stack-label">Implementation</span>
+          <p>Python 3.13 · BM25 · cosine similarity · MMR · zstd / protobuf codec · unittest · GitHub Actions</p>
+        </div>
+      </div>
+    </section>
+    <section class="wrap section artifact" aria-labelledby="artifact-title">
+      <div class="artifact-copy">
+        <p class="section-index">In the tool</p>
+        <h2 id="artifact-title">Local interface, inspectable output.</h2>
+        <p>The dependency-free web UI exposes the corpus query and build generator. Retrieval evidence and the generated build document remain visible alongside the controls.</p>
+        <p><a class="text-link" href="example-infernus.md">Read the Infernus example build</a></p>
+      </div>
+      <figure class="shot-frame">
+        <a href="screenshot-ui.png" aria-label="Open the full Deadlock RAG web interface screenshot">
+          <img src="screenshot-ui.png" width="1650" height="1840" alt="Deadlock RAG web interface showing a corpus query with retrieved evidence and controls for generating a build">
+        </a>
+        <figcaption class="caption">Screenshot of the local RAG and build-generator interface.</figcaption>
+      </figure>
+    </section>
+    <section class="wrap closing" aria-labelledby="closing-title">
+      <h2 id="closing-title">Read the implementation and evaluation for yourself.</h2>
+      <a class="button" href="https://github.com/gustavomgama/deadlock-build-generator">Explore the GitHub repository</a>
+    </section>
+  </main>
+  <footer class="wrap footer">
+    <p>Unaffiliated fan project. Deadlock is a Valve trademark.</p>
+    <p>MIT applies to the code, not game or wiki data.</p>
+  </footer>
+</body>
+</html>

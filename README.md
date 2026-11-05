@@ -2,6 +2,8 @@
 
 [![ci](https://github.com/gustavomgama/deadlock-build-generator/actions/workflows/ci.yml/badge.svg)](https://github.com/gustavomgama/deadlock-build-generator/actions/workflows/ci.yml)
 
+[Portfolio site](https://gustavomgama.github.io/deadlock-build-generator/) · [Case study](docs/CASE_STUDY.md)
+
 Generate original item builds for [Deadlock](https://www.playdeadlock.com/) from a local
 knowledge base, then encode them into a game-importable build code — and refuse to emit
 anything that does not decode and validate.
