@@ -182,6 +182,8 @@ form.addEventListener('submit',async e=>{
     const r=await fetch('/api/query',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});
     const j=await r.json();
     document.getElementById('out').textContent=j.answer||j.error||'no response';
+  }catch(err){
+    document.getElementById('out').textContent='request failed: '+err.message;
   }finally{qstatus.textContent='';}
 });
 </script>
@@ -198,6 +200,8 @@ bform.addEventListener('submit',async e=>{
     const r=await fetch('/api/build',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});
     const j=await r.json();
     document.getElementById('buildout').textContent=j.output||j.error||'no response';
+  }catch(err){
+    document.getElementById('buildout').textContent='request failed: '+err.message;
   }finally{bstatus.textContent='';}
 });
 </script>
